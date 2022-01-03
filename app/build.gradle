@@ -17,9 +17,24 @@ android {
     }
 
     buildTypes {
-        release {
-            minifyEnabled false
+        debug {
+            applicationIdSuffix ".debug"
+            debuggable true
+            buildConfigField "String", "REPLAY_POKER_ENDPOINT", "\"https://www.replaypoker.com/\""
+        }
+        qa {
+            applicationIdSuffix ".qa"
+            debuggable true
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "REPLAY_POKER_ENDPOINT", "\"https://www.replaypoker.com/\""
+        }
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "REPLAY_POKER_ENDPOINT", "\"https://www.replaypoker.com/\""
         }
     }
 
@@ -47,6 +62,17 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
+
+    // Networking
+    def retrofitVersion = "2.9.0"
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-jackson:$retrofitVersion"
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.2'
+
+    // Dependency Injection
+    def koinVersion = "3.1.4"
+    implementation "io.insert-koin:koin-core:$koinVersion"
+    implementation "io.insert-koin:koin-android:$koinVersion"
 
     // Testing
     testImplementation 'junit:junit:4.13.2'
