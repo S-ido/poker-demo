@@ -1,12 +1,11 @@
 package com.chebdowski.pokerdemo.data
 
 import com.chebdowski.pokerdemo.domain.PokerRepository
+import com.chebdowski.pokerdemo.domain.Result
 import com.chebdowski.pokerdemo.domain.Ring
-import com.chebdowski.pokerdemo.domain.SafeResult
 
-class ReplayPokerRepository(val replayPokerApi: ReplayPokerApi) : PokerRepository {
+class ReplayPokerRepository(private val replayPokerApi: ReplayPokerApi) : PokerRepository {
 
-    override suspend fun getRings(): SafeResult<List<Ring>> {
-        TODO("not implemented")
-    }
+    override suspend fun getRings(): Result<List<Ring>> =
+        replayPokerApi.rings().toResult { it.toDomain() }
 }

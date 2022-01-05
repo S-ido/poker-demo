@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class Blinds(
-    @JsonProperty("small") val small: Long,
-    @JsonProperty("big") val big: Long
+data class Promotion(
+    @JsonProperty("name") val name: String,
+    @JsonProperty("url") val url: String
 )
