@@ -1,10 +1,13 @@
 package com.chebdowski.pokerdemo.domain
 
-sealed class Result<out T, out E> {
+sealed class Result<out T> {
 
-    data class Success<out T>(val data: T) : Result<T, Nothing>()
+    data class Success<out T>(val data: T) : Result<T>()
 
-    data class Error<E>(val error: E) : Result<Nothing, E>()
+    data class Error(val failure: Failure) : Result<Nothing>()
+
+    inline fun <C> fold(success: (T) -> C, error: (Failure) -> C): C = when (this) {
+        is Success -> success(data)
+        is Error -> error(failure)
+    }
 }
-
-typealias SafeResult<T> = Result<T, Failure>

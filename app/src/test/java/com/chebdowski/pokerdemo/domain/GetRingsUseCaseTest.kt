@@ -16,7 +16,7 @@ class GetRingsUseCaseTest {
 
     private val emptyListResult = Result.Success(listOf<Ring>())
     private val dummyRing = Ring("dummyName", "dummyGameType")
-    private val ringsList = listOf(dummyRing)
+    private val ringsList = listOf(dummyRing, dummyRing)
     private val ringsListResult = Result.Success(ringsList)
     private val unknownErrorResult = Result.Error(Failure.Unknown)
 
@@ -24,7 +24,7 @@ class GetRingsUseCaseTest {
     private lateinit var pokerRepository: PokerRepository
 
     @Test
-    fun `getRings shouldReturn emptyList whenNoData`() = runTest {
+    fun `getRings should return empty list when no data`() = runTest {
         Mockito.`when`(pokerRepository.getRings()).thenReturn(emptyListResult)
         val result = pokerRepository.getRings()
 
@@ -33,20 +33,22 @@ class GetRingsUseCaseTest {
     }
 
     @Test
-    fun `getRings shouldReturn correctElements`() = runTest {
+    fun `getRings should return correct elements`() = runTest {
         Mockito.`when`(pokerRepository.getRings()).thenReturn(ringsListResult)
         val result = pokerRepository.getRings()
 
         verify(pokerRepository).getRings()
         assertEquals(ringsListResult, result)
+        assertEquals(ringsList.size, ringsListResult.data.size)
     }
 
     @Test
-    fun `getRings shouldReturn correctError`() = runTest {
+    fun `getRings should return correct error`() = runTest {
         Mockito.`when`(pokerRepository.getRings()).thenReturn(unknownErrorResult)
         val result = pokerRepository.getRings()
 
         verify(pokerRepository).getRings()
         assertEquals(unknownErrorResult, result)
+        assertEquals(Failure.Unknown, (result as Result.Error).failure)
     }
 }

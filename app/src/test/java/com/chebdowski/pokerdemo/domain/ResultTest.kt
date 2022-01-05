@@ -6,7 +6,7 @@ import org.junit.Test
 class ResultTest {
 
     @Test
-    fun `successResult shouldReturn CorrectData`() {
+    fun `successful result should return correct data`() {
         val dummyRingsList = listOf<Ring>()
         val result = Result.Success(dummyRingsList)
 
@@ -14,9 +14,9 @@ class ResultTest {
     }
 
     @Test
-    fun `errorResult shouldReturn Failure`() {
+    fun `error result should return Failure`() {
         val result = Result.Error(Failure.Unknown)
 
-        assertEquals(Failure.Unknown, result.error)
+        assertEquals(Failure.Unknown, result.failure)
     }
 }
