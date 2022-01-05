@@ -16,6 +16,8 @@ class RingGamesViewModel(private val getRingsUseCase: GetRingsUseCase) : BaseVie
     val ringGames: LiveData<List<Ring>> = _ringGames
 
     fun loadRingGames() {
+        setLoading(true)
+
         viewModelScope.launch(Dispatchers.IO) {
             val response = getRingsUseCase()
 
@@ -30,5 +32,6 @@ class RingGamesViewModel(private val getRingsUseCase: GetRingsUseCase) : BaseVie
 
     private fun handleRingGames(ringGames: List<Ring>) {
         _ringGames.value = ringGames
+        setLoading(false)
     }
 }

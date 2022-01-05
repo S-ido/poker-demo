@@ -49,6 +49,10 @@ class RingGamesFragment : Fragment() {
     }
 
     private fun setupObservers() {
+        viewModel.loading.observe(viewLifecycleOwner, { loading ->
+            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+        })
+
         viewModel.ringGames.observe(viewLifecycleOwner, { ringGames ->
             ringGamesAdapter.submitList(ringGames)
         })
