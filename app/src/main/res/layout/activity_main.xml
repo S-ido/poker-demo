@@ -7,7 +7,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/titleFragment"
-        android:name="com.chebdowski.pokerdemo.presentation.RingGamesFragment"
+        android:name="com.chebdowski.pokerdemo.presentation.ringgames.RingGamesFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
