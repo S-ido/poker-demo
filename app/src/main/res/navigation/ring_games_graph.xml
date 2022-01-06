@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ring_games_graph"
+    app:startDestination="@id/ringGamesFragment">
+
+    <fragment
+        android:id="@+id/ringGamesFragment"
+        android:name="com.chebdowski.pokerdemo.presentation.ringgames.RingGamesFragment"
+        android:label="fragment_ring_games"
+        tools:layout="@layout/fragment_ring_games" />
+</navigation>
