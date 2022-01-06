@@ -4,20 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.chebdowski.pokerdemo.R
 import com.chebdowski.pokerdemo.databinding.FragmentRingGamesBinding
 import com.chebdowski.pokerdemo.domain.Failure
 import com.chebdowski.pokerdemo.domain.Ring
+import com.chebdowski.pokerdemo.presentation.BaseFragment
 import com.chebdowski.pokerdemo.presentation.ErrorMessageViewModel
 import com.chebdowski.pokerdemo.presentation.tabledetails.TableDetails
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class RingGamesFragment : Fragment() {
+class RingGamesFragment : BaseFragment() {
 
     private var _binding: FragmentRingGamesBinding? = null
     private val binding get() = _binding!!
@@ -39,6 +40,7 @@ class RingGamesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setTitle(R.string.ring_games)
         setupRingGamesList()
         setupObservers()
 
@@ -55,6 +57,7 @@ class RingGamesFragment : Fragment() {
     private fun setupObservers() {
         ringGamesViewModel.loading.observe(viewLifecycleOwner, { loading ->
             binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+            binding.ringGamesList.visibility = if (loading) View.GONE else View.VISIBLE
         })
 
         ringGamesViewModel.ringGames.observe(viewLifecycleOwner, { ringGames ->

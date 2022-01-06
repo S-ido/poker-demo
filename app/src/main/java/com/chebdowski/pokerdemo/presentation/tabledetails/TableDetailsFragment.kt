@@ -4,13 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.chebdowski.pokerdemo.databinding.FragmentTableDetailsBinding
+import com.chebdowski.pokerdemo.presentation.BaseFragment
 
-class TableDetailsFragment : Fragment() {
+class TableDetailsFragment : BaseFragment() {
 
-    val args by navArgs<TableDetailsFragmentArgs>()
+    private val args by navArgs<TableDetailsFragmentArgs>()
 
     private var _binding: FragmentTableDetailsBinding? = null
     private val binding get() = _binding!!
@@ -28,6 +28,11 @@ class TableDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val tableDetails = args.tableDetails
-        println(tableDetails.toString())
+        handleTableDetails(tableDetails)
+    }
+
+    private fun handleTableDetails(tableDetails: TableDetails) {
+        setTitle(tableDetails.name)
+        binding.gameType.text = tableDetails.gameType
     }
 }
