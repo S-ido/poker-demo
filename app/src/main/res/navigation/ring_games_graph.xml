@@ -9,5 +9,18 @@
         android:id="@+id/ringGamesFragment"
         android:name="com.chebdowski.pokerdemo.presentation.ringgames.RingGamesFragment"
         android:label="fragment_ring_games"
-        tools:layout="@layout/fragment_ring_games" />
+        tools:layout="@layout/fragment_ring_games">
+        <action
+            android:id="@+id/navigateToTableDetailsFragment"
+            app:destination="@id/tableDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/tableDetailsFragment"
+        android:name="com.chebdowski.pokerdemo.presentation.tabledetails.TableDetailsFragment"
+        android:label="fragment_table_details"
+        tools:layout="@layout/fragment_table_details">
+        <argument
+            android:name="tableDetails"
+            app:argType="com.chebdowski.pokerdemo.presentation.tabledetails.TableDetails" />
+    </fragment>
 </navigation>

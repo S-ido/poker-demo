@@ -5,11 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chebdowski.pokerdemo.databinding.FragmentRingGamesBinding
 import com.chebdowski.pokerdemo.domain.Failure
+import com.chebdowski.pokerdemo.domain.Ring
 import com.chebdowski.pokerdemo.presentation.ErrorMessageViewModel
+import com.chebdowski.pokerdemo.presentation.tabledetails.TableDetails
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -25,7 +28,8 @@ class RingGamesFragment : Fragment() {
     private lateinit var ringGamesAdapter: RingGamesAdapter
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentRingGamesBinding.inflate(inflater, container, false)
@@ -43,9 +47,7 @@ class RingGamesFragment : Fragment() {
 
     private fun setupRingGamesList() {
         binding.ringGamesList.layoutManager = LinearLayoutManager(context)
-        ringGamesAdapter = RingGamesAdapter { ring ->
-            println(ring.name)
-        }
+        ringGamesAdapter = RingGamesAdapter(::handleRingClickCallback)
         binding.ringGamesList.adapter = ringGamesAdapter
         binding.ringGamesList.addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
     }
@@ -61,6 +63,14 @@ class RingGamesFragment : Fragment() {
 
         ringGamesViewModel.failure.observe(viewLifecycleOwner, { failure -> handleError(failure) })
     }
+
+    private fun handleRingClickCallback(ring: Ring) {
+        val tableDetails = ringToTableDetails(ring)
+        val directions = RingGamesFragmentDirections.navigateToTableDetailsFragment(tableDetails)
+        findNavController().navigate(directions)
+    }
+
+    private fun ringToTableDetails(ring: Ring) = TableDetails(ring.name, ring.gameType, ring.minBuyIn, ring.maxBuyIn)
 
     private fun handleError(failure: Failure) {
         val errorResourceId = errorMessageViewModel.getMessage(failure)

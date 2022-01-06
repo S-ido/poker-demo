@@ -9,6 +9,6 @@ data class RingsResponse(
     @JsonProperty("rings") val rings: List<Rings>
 ) {
     fun toDomain(): List<Ring> {
-        return rings.map { ring -> Ring(ring.name, ring.game.name) }
+        return rings.map { ring -> Ring(ring.name, ring.game.name, ring.brings.min, ring.brings.max) }
     }
 }
