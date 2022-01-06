@@ -1,9 +1,8 @@
 package com.chebdowski.pokerdemo.interactors
 
 import com.chebdowski.pokerdemo.domain.PokerRepository
-import com.chebdowski.pokerdemo.domain.Ring
 
-class GetRingsUseCase(private val pokerRepository: PokerRepository) : UseCase<List<Ring>> {
+class GetRingsUseCase(private val pokerRepository: PokerRepository) {
 
-    override suspend fun invoke() = pokerRepository.getRings()
+    suspend operator fun invoke() = pokerRepository.getRings()
 }

@@ -1,5 +1,9 @@
-package com.chebdowski.pokerdemo.domain
+package com.chebdowski.pokerdemo.interactors
 
+import com.chebdowski.pokerdemo.domain.Failure
+import com.chebdowski.pokerdemo.domain.PokerRepository
+import com.chebdowski.pokerdemo.domain.Result
+import com.chebdowski.pokerdemo.domain.Ring
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -24,18 +28,22 @@ class GetRingsUseCaseTest {
     private lateinit var pokerRepository: PokerRepository
 
     @Test
-    fun `getRings should return empty list when no data`() = runTest {
+    fun `getRingsUseCase should return empty list when no data`() = runTest {
         Mockito.`when`(pokerRepository.getRings()).thenReturn(emptyListResult)
-        val result = pokerRepository.getRings()
+        val getRingsUseCase = GetRingsUseCase(pokerRepository)
+
+        val result = getRingsUseCase()
 
         verify(pokerRepository).getRings()
         assertEquals(emptyListResult, result)
     }
 
     @Test
-    fun `getRings should return correct elements`() = runTest {
+    fun `getRingsUseCase should return correct elements`() = runTest {
         Mockito.`when`(pokerRepository.getRings()).thenReturn(ringsListResult)
-        val result = pokerRepository.getRings()
+        val getRingsUseCase = GetRingsUseCase(pokerRepository)
+
+        val result = getRingsUseCase()
 
         verify(pokerRepository).getRings()
         assertEquals(ringsListResult, result)
@@ -43,9 +51,11 @@ class GetRingsUseCaseTest {
     }
 
     @Test
-    fun `getRings should return correct error`() = runTest {
+    fun `getRingsUseCase should return correct error`() = runTest {
         Mockito.`when`(pokerRepository.getRings()).thenReturn(unknownErrorResult)
-        val result = pokerRepository.getRings()
+        val getRingsUseCase = GetRingsUseCase(pokerRepository)
+
+        val result = getRingsUseCase()
 
         verify(pokerRepository).getRings()
         assertEquals(unknownErrorResult, result)

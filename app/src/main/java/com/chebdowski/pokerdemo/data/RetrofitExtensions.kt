@@ -3,6 +3,7 @@ package com.chebdowski.pokerdemo.data
 import com.chebdowski.pokerdemo.domain.Failure
 import com.chebdowski.pokerdemo.domain.Result
 import retrofit2.Response
+import java.net.SocketTimeoutException
 
 fun <T, R> Response<T>.toResult(transform: (T) -> R): Result<R> =
     try {
@@ -12,22 +13,21 @@ fun <T, R> Response<T>.toResult(transform: (T) -> R): Result<R> =
                 if (body != null) {
                     Result.Success(transform(body))
                 } else {
-                    Result.Error(Failure.NoData)
+                    Result.Error(Failure.Http.ServerError)
                 }
             }
             false -> Result.Error(getError(code()))
         }
     } catch (t: Throwable) {
-        Result.Error(Failure.RequestError)
+        when (t) {
+            is SocketTimeoutException -> Result.Error(Failure.Http.RequestTimeout)
+            else -> Result.Error(Failure.Http.UnhandledError)
+        }
     }
 
 private fun getError(code: Int): Failure =
     when (code) {
-        400 -> Failure.BadRequest
-        401 -> Failure.Unauthorized
-        403 -> Failure.Forbidden
-        404 -> Failure.NotFound
-        408 -> Failure.RequestTimeout
-        in 500..599 -> Failure.ServerError
-        else -> Failure.UnhandledError
+        408 -> Failure.Http.RequestTimeout
+        in 500..599 -> Failure.Http.ServerError
+        else -> Failure.Http.UnhandledError
     }

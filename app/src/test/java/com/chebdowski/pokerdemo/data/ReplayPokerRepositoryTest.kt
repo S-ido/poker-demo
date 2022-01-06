@@ -85,14 +85,14 @@ class ReplayPokerRepositoryTest {
 
     @Test
     fun `getRings should return correct Failure when api call is not successful`() = runTest {
-        `when`(replayPokerApi.rings()).thenReturn(errorResponse(401))
+        `when`(replayPokerApi.rings()).thenReturn(errorResponse(408))
         val pokerRepository = ReplayPokerRepository(replayPokerApi)
 
         val result = pokerRepository.getRings()
         assertTrue(result is Result.Error)
         result.fold(
             success = {},
-            error = { failure -> assertEquals(Failure.Unauthorized, failure) }
+            error = { failure -> assertEquals(Failure.Http.RequestTimeout, failure) }
         )
     }
 

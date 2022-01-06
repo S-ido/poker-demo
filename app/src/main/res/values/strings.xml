@@ -1,5 +1,3 @@
 <resources>
     <string name="app_name">Poker Demo</string>
-
-    <string name="error_socket_timeout_exception">Downloading data takes too much time. Please check your internet connection.</string>
 </resources>

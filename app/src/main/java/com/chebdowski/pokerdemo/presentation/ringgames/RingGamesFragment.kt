@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chebdowski.pokerdemo.databinding.FragmentRingGamesBinding
 import com.chebdowski.pokerdemo.domain.Failure
+import com.chebdowski.pokerdemo.presentation.ErrorMessageViewModel
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -18,7 +19,8 @@ class RingGamesFragment : Fragment() {
     private var _binding: FragmentRingGamesBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: RingGamesViewModel by viewModel()
+    private val ringGamesViewModel: RingGamesViewModel by viewModel()
+    private val errorMessageViewModel: ErrorMessageViewModel by viewModel()
 
     private lateinit var ringGamesAdapter: RingGamesAdapter
 
@@ -36,7 +38,7 @@ class RingGamesFragment : Fragment() {
         setupRingGamesList()
         setupObservers()
 
-        viewModel.loadRingGames()
+        ringGamesViewModel.loadRingGames()
     }
 
     private fun setupRingGamesList() {
@@ -49,21 +51,20 @@ class RingGamesFragment : Fragment() {
     }
 
     private fun setupObservers() {
-        viewModel.loading.observe(viewLifecycleOwner, { loading ->
+        ringGamesViewModel.loading.observe(viewLifecycleOwner, { loading ->
             binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
         })
 
-        viewModel.ringGames.observe(viewLifecycleOwner, { ringGames ->
+        ringGamesViewModel.ringGames.observe(viewLifecycleOwner, { ringGames ->
             ringGamesAdapter.submitList(ringGames)
         })
 
-        viewModel.failure.observe(viewLifecycleOwner, { failure -> handleError(failure) })
+        ringGamesViewModel.failure.observe(viewLifecycleOwner, { failure -> handleError(failure) })
     }
 
     private fun handleError(failure: Failure) {
-        "message"?.let {
-            Snackbar.make(binding.root, it, Snackbar.LENGTH_LONG).show()
-        }
+        val errorResourceId = errorMessageViewModel.getMessage(failure)
+        Snackbar.make(binding.root, errorResourceId, Snackbar.LENGTH_LONG).show()
     }
 
     override fun onDestroyView() {
