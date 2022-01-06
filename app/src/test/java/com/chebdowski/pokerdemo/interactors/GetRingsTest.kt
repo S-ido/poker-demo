@@ -16,7 +16,7 @@ import org.mockito.kotlin.verify
 
 @RunWith(MockitoJUnitRunner::class)
 @ExperimentalCoroutinesApi
-class GetRingsUseCaseTest {
+class GetRingsTest {
 
     private val emptyListResult = Result.Success(listOf<Ring>())
     private val dummyRing = Ring("dummyName", "dummyGameType")
@@ -30,7 +30,7 @@ class GetRingsUseCaseTest {
     @Test
     fun `getRingsUseCase should return empty list when no data`() = runTest {
         Mockito.`when`(pokerRepository.getRings()).thenReturn(emptyListResult)
-        val getRingsUseCase = GetRingsUseCase(pokerRepository)
+        val getRingsUseCase = GetRings(pokerRepository)
 
         val result = getRingsUseCase()
 
@@ -41,7 +41,7 @@ class GetRingsUseCaseTest {
     @Test
     fun `getRingsUseCase should return correct elements`() = runTest {
         Mockito.`when`(pokerRepository.getRings()).thenReturn(ringsListResult)
-        val getRingsUseCase = GetRingsUseCase(pokerRepository)
+        val getRingsUseCase = GetRings(pokerRepository)
 
         val result = getRingsUseCase()
 
@@ -53,7 +53,7 @@ class GetRingsUseCaseTest {
     @Test
     fun `getRingsUseCase should return correct error`() = runTest {
         Mockito.`when`(pokerRepository.getRings()).thenReturn(unknownErrorResult)
-        val getRingsUseCase = GetRingsUseCase(pokerRepository)
+        val getRingsUseCase = GetRings(pokerRepository)
 
         val result = getRingsUseCase()
 

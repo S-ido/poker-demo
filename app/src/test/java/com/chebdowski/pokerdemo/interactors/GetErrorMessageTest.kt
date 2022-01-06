@@ -10,7 +10,7 @@ import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-class GetErrorMessageUseCaseTest {
+class GetErrorMessageTest {
 
     @Mock
     private lateinit var errorMessageRepository: ErrorMessageRepository
@@ -20,7 +20,7 @@ class GetErrorMessageUseCaseTest {
     @Test
     fun `getMessageUseCase should return error message resource id`() {
         `when`(errorMessageRepository.getMessage(Failure.Unknown)).thenReturn(fakeErrorMessageResourceId)
-        val getErrorMessageUseCase = GetErrorMessageUseCase(errorMessageRepository)
+        val getErrorMessageUseCase = GetErrorMessage(errorMessageRepository)
 
         val resourceId = getErrorMessageUseCase(Failure.Unknown)
 

@@ -6,11 +6,15 @@ import androidx.lifecycle.viewModelScope
 import com.chebdowski.pokerdemo.domain.Ring
 import com.chebdowski.pokerdemo.interactors.GetRingsUseCase
 import com.chebdowski.pokerdemo.presentation.BaseViewModel
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class RingGamesViewModel(private val getRingsUseCase: GetRingsUseCase) : BaseViewModel() {
+class RingGamesViewModel(
+    private val getRingsUseCase: GetRingsUseCase<List<Ring>>,
+    private val mainDispatcher: CoroutineDispatcher,
+    private val ioDispatcher: CoroutineDispatcher
+) : BaseViewModel() {
 
     private val _ringGames: MutableLiveData<List<Ring>> = MutableLiveData()
     val ringGames: LiveData<List<Ring>> = _ringGames
@@ -18,10 +22,10 @@ class RingGamesViewModel(private val getRingsUseCase: GetRingsUseCase) : BaseVie
     fun loadRingGames() {
         setLoading(true)
 
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(ioDispatcher) {
             val response = getRingsUseCase()
 
-            withContext(Dispatchers.Main) {
+            withContext(mainDispatcher) {
                 response.fold(
                     success = { handleRingGames(it) },
                     error = { handleFailure(it) }

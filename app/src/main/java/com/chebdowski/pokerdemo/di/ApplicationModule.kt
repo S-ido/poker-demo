@@ -6,10 +6,14 @@ import com.chebdowski.pokerdemo.data.errors.ResourceErrorMessageService
 import com.chebdowski.pokerdemo.data.errors.ResourcesErrorMessageRepository
 import com.chebdowski.pokerdemo.domain.ErrorMessageRepository
 import com.chebdowski.pokerdemo.domain.PokerRepository
+import com.chebdowski.pokerdemo.domain.Ring
+import com.chebdowski.pokerdemo.interactors.GetErrorMessage
 import com.chebdowski.pokerdemo.interactors.GetErrorMessageUseCase
+import com.chebdowski.pokerdemo.interactors.GetRings
 import com.chebdowski.pokerdemo.interactors.GetRingsUseCase
 import com.chebdowski.pokerdemo.presentation.ErrorMessageViewModel
 import com.chebdowski.pokerdemo.presentation.ringgames.RingGamesViewModel
+import kotlinx.coroutines.Dispatchers
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -25,8 +29,10 @@ val applicationModule = module {
 fun provideErrorMessageRepository(): ErrorMessageRepository = ResourcesErrorMessageRepository(ResourceErrorMessageService())
 fun providePokerRepository(api: ReplayPokerApi): PokerRepository = ReplayPokerRepository(api)
 
-fun provideGetErrorMessageUseCase(errorMessageRepository: ErrorMessageRepository) = GetErrorMessageUseCase(errorMessageRepository)
-fun provideGetRingsUseCase(pokerRepository: PokerRepository) = GetRingsUseCase(pokerRepository)
+fun provideGetErrorMessageUseCase(errorMessageRepository: ErrorMessageRepository): GetErrorMessageUseCase =
+    GetErrorMessage(errorMessageRepository)
+fun provideGetRingsUseCase(pokerRepository: PokerRepository): GetRingsUseCase<List<Ring>> = GetRings(pokerRepository)
 
 fun provideErrorMessageViewModel(getErrorMessageUseCase: GetErrorMessageUseCase) = ErrorMessageViewModel(getErrorMessageUseCase)
-fun provideRingGamesViewModel(getRingsUseCase: GetRingsUseCase) = RingGamesViewModel(getRingsUseCase)
+fun provideRingGamesViewModel(getRingsUseCase: GetRingsUseCase<List<Ring>>) =
+    RingGamesViewModel(getRingsUseCase, Dispatchers.Main, Dispatchers.IO)
