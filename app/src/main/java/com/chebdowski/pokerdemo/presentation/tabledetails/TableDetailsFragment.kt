@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.navArgs
+import com.chebdowski.pokerdemo.R
 import com.chebdowski.pokerdemo.databinding.FragmentTableDetailsBinding
 import com.chebdowski.pokerdemo.presentation.BaseFragment
 
@@ -34,5 +35,6 @@ class TableDetailsFragment : BaseFragment() {
     private fun handleTableDetails(tableDetails: TableDetails) {
         setTitle(tableDetails.name)
         binding.gameType.text = tableDetails.gameType
+        binding.buyInRange.text = getString(R.string.buy_in_range, tableDetails.minBuyIn, tableDetails.maxBuyIn)
     }
 }

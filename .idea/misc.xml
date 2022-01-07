@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Piotr/Documents/Workspace/Android/poker-demo/app/src/main/res/drawable/background.xml" value="0.25833333333333336" />
+        <entry key="..\:/Users/Piotr/Documents/Workspace/Android/poker-demo/app/src/main/res/drawable/table.xml" value="0.264" />
         <entry key="..\:/Users/Piotr/Documents/Workspace/Android/poker-demo/app/src/main/res/layout/activity_main.xml" value="0.2421875" />
         <entry key="..\:/Users/Piotr/Documents/Workspace/Android/poker-demo/app/src/main/res/layout/fragment_table_details.xml" value="0.24139492753623187" />
         <entry key="..\:/Users/Piotr/Documents/Workspace/Android/poker-demo/app/src/main/res/layout/item_ring.xml" value="0.2421875" />
