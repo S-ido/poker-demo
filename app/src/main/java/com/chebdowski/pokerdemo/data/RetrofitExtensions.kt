@@ -18,11 +18,11 @@ fun <T, R> Response<T>.toResult(transform: (T) -> R): Result<R> =
             }
             false -> Result.Error(getError(code()))
         }
+    } catch (e: SocketTimeoutException) {
+        Result.Error(Failure.Http.RequestTimeout)
     } catch (t: Throwable) {
-        when (t) {
-            is SocketTimeoutException -> Result.Error(Failure.Http.RequestTimeout)
-            else -> Result.Error(Failure.Http.UnhandledError)
-        }
+        // TODO Send stack trace to a crash reporting tool
+        Result.Error(Failure.Http.UnhandledError)
     }
 
 private fun getError(code: Int): Failure =
