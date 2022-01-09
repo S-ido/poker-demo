@@ -1,15 +1,14 @@
 package com.chebdowski.pokerdemo.presentation.ringgames
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import app.cash.turbine.test
 import com.chebdowski.pokerdemo.domain.Failure
 import com.chebdowski.pokerdemo.domain.Result
 import com.chebdowski.pokerdemo.domain.Ring
 import com.chebdowski.pokerdemo.interactors.GetRingsUseCase
-import kotlinx.coroutines.Dispatchers
+import com.chebdowski.pokerdemo.presentation.TestCoroutineRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -22,38 +21,35 @@ import org.mockito.junit.MockitoJUnitRunner
 class RingGamesViewModelTest {
 
     @get:Rule
-    var instantExecutorRule = InstantTaskExecutorRule()
+    var testCoroutineRule = TestCoroutineRule()
 
-    private val dummyRing = Ring("dummyName", "dummyGameType")
+    private val dummyRing = Ring("dummyName", "dummyGameType", 0, 0)
     private val ringsList = listOf(dummyRing, dummyRing)
     private val ringsListResult = Result.Success(ringsList)
     private val errorResult = Result.Error(Failure.Unknown)
-    private val testDispatcher = Dispatchers.Unconfined
 
     @Mock
     private lateinit var getRingsUseCase: GetRingsUseCase<List<Ring>>
 
     @Test
-    fun `loadRingGames should update ringGames LiveData when successful result`() = runTest {
+    fun `ringGames flow should return correct data on successful result`() = runTest {
         `when`(getRingsUseCase()).thenReturn(ringsListResult)
-        val ringGamesViewModel = RingGamesViewModel(getRingsUseCase, testDispatcher, testDispatcher)
+        val ringGamesViewModel = RingGamesViewModel(getRingsUseCase)
 
-        ringGamesViewModel.loadRingGames()
-        val result = ringGamesViewModel.ringGames.value
-
-        assertNotNull(result)
-        assertEquals(ringsList, result)
+        ringGamesViewModel.ringGames.test {
+            assertEquals(ringsListResult, awaitItem())
+            cancelAndConsumeRemainingEvents()
+        }
     }
 
     @Test
-    fun `loadRingGames should update failure's LiveData when error result`() = runTest {
+    fun `ringGames flow should return Failure on error result`() = runTest {
         `when`(getRingsUseCase()).thenReturn(errorResult)
-        val ringGamesViewModel = RingGamesViewModel(getRingsUseCase, testDispatcher, testDispatcher)
+        val ringGamesViewModel = RingGamesViewModel(getRingsUseCase)
 
-        ringGamesViewModel.loadRingGames()
-        val result = ringGamesViewModel.failure.value
-
-        assertNotNull(result)
-        assertEquals(Failure.Unknown, result)
+        ringGamesViewModel.ringGames.test {
+            assertEquals(errorResult, awaitItem())
+            cancelAndConsumeRemainingEvents()
+        }
     }
 }

@@ -65,7 +65,8 @@ class ReplayPokerRepositoryTest {
         assertTrue(result is Result.Success)
         result.fold(
             success = { ringsList -> assertEquals(ringsResponse.rings.size, ringsList.size) },
-            error = {}
+            error = {},
+            loading = {}
         )
     }
 
@@ -79,7 +80,8 @@ class ReplayPokerRepositoryTest {
         assertTrue(result is Result.Error)
         result.fold(
             success = { ringsList -> assertNull(ringsList) },
-            error = {}
+            error = {},
+            loading = {}
         )
     }
 
@@ -92,7 +94,8 @@ class ReplayPokerRepositoryTest {
         assertTrue(result is Result.Error)
         result.fold(
             success = {},
-            error = { failure -> assertEquals(Failure.Http.RequestTimeout, failure) }
+            error = { failure -> assertEquals(Failure.Http.RequestTimeout, failure) },
+            loading = {}
         )
     }
 

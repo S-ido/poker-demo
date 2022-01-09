@@ -35,4 +35,4 @@ fun provideGetRingsUseCase(pokerRepository: PokerRepository): GetRingsUseCase<Li
 
 fun provideErrorMessageViewModel(getErrorMessageUseCase: GetErrorMessageUseCase) = ErrorMessageViewModel(getErrorMessageUseCase)
 fun provideRingGamesViewModel(getRingsUseCase: GetRingsUseCase<List<Ring>>) =
-    RingGamesViewModel(getRingsUseCase, Dispatchers.Main, Dispatchers.IO)
+    RingGamesViewModel(getRingsUseCase)

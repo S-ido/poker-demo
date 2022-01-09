@@ -19,7 +19,7 @@ import org.mockito.kotlin.verify
 class GetRingsTest {
 
     private val emptyListResult = Result.Success(listOf<Ring>())
-    private val dummyRing = Ring("dummyName", "dummyGameType")
+    private val dummyRing = Ring("dummyName", "dummyGameType", 0, 0)
     private val ringsList = listOf(dummyRing, dummyRing)
     private val ringsListResult = Result.Success(ringsList)
     private val unknownErrorResult = Result.Error(Failure.Unknown)
