@@ -58,6 +58,14 @@ class RingGamesFragment : BaseFragment() {
         binding.ringGamesList.addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
     }
 
+    private fun handleRingClickCallback(ring: Ring) {
+        val tableDetails = ringToTableDetails(ring)
+        val directions = RingGamesFragmentDirections.navigateToTableDetailsFragment(tableDetails)
+        findNavController().navigate(directions)
+    }
+
+    private fun ringToTableDetails(ring: Ring) = TableDetails(ring.name, ring.gameType, ring.minBuyIn, ring.maxBuyIn)
+
     private fun setupDataCollectors() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(STARTED) {
@@ -71,14 +79,6 @@ class RingGamesFragment : BaseFragment() {
             }
         }
     }
-
-    private fun handleRingClickCallback(ring: Ring) {
-        val tableDetails = ringToTableDetails(ring)
-        val directions = RingGamesFragmentDirections.navigateToTableDetailsFragment(tableDetails)
-        findNavController().navigate(directions)
-    }
-
-    private fun ringToTableDetails(ring: Ring) = TableDetails(ring.name, ring.gameType, ring.minBuyIn, ring.maxBuyIn)
 
     private fun handleRingGames(ringGames: List<Ring>) {
         binding.progressBar.visibility = View.GONE

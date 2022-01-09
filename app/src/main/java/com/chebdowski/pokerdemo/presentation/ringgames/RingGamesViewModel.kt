@@ -15,7 +15,7 @@ private const val FIVE_SECONDS = 5000L
 class RingGamesViewModel(private val getRingsUseCase: GetRingsUseCase<List<Ring>>) : ViewModel() {
 
     val ringGames: StateFlow<Result<List<Ring>>> = flow {
-//        emit(Result.Loading)
+        emit(Result.Loading)
         emit(getRingsUseCase())
     }.stateIn(
         scope = viewModelScope,
