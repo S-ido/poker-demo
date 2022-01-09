@@ -20,5 +20,8 @@
         <argument
             android:name="tableDetails"
             app:argType="com.chebdowski.pokerdemo.presentation.tabledetails.TableDetails" />
+        <action
+            android:id="@+id/navigateToRingGamesFragment"
+            app:destination="@id/ringGamesFragment" />
     </fragment>
 </navigation>

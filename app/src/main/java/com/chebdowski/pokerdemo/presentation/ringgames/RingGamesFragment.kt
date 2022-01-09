@@ -46,6 +46,7 @@ class RingGamesFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setTitle(R.string.ring_games)
+        enableBackButton(false)
         setupRingGamesList()
         setupDataCollectors()
     }

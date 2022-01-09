@@ -28,6 +28,7 @@ class TableDetailsFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        enableBackButton(true)
         val tableDetails = args.tableDetails
         handleTableDetails(tableDetails)
     }
